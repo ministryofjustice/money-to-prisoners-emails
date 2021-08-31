@@ -1,0 +1,32 @@
+*.DS_Store
+*.py[cod]
+*.mo
+*.pot
+venv/
+
+# sass & node.js
+*.sass-cache/
+.eslintcache/
+node_modules/
+npm-debug.log
+
+# app-specific
+.eslintrc.json
+.sass-lint.yml
+docker-compose.yml
+package.json
+package-lock.json
+webpack.config.js
+mtp_emails/assets/
+mtp_emails/settings/local.py
+static/
+media/
+spooler/
+local_files/cache/
+/test_disbursements.xlsm
+/test_journal.xlsm
+
+# testing
+/reports/
+geckodriver.log
+ghostdriver.log

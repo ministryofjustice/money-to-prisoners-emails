@@ -1,0 +1,30 @@
+# general
+*.DS_Store
+*.py?
+*.pot
+*~
+
+# editors
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# sass & node.js
+*.sass-cache/
+.eslintcache/
+node_modules/
+npm-debug.log
+
+# project
+Dockerfile
+docker-compose.yml
+package.json
+package-lock.json
+webpack.config.js
+mtp_emails/assets/
+mtp_emails/templates/govuk_template
+static/
+media/
+venv/
+spooler/
+local_files/cache/
