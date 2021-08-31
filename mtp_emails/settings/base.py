@@ -255,6 +255,8 @@ ZENDESK_CUSTOM_FIELDS = {
 
 # EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
 
+GOVUK_NOTIFY_CALLBACKS_BEARER_TOKEN = os.environ.get('GOVUK_NOTIFY_CALLBACKS_BEARER_TOKEN', '')
+
 SHOW_LANGUAGE_SWITCH = os.environ.get('SHOW_LANGUAGE_SWITCH', 'False') == 'True'
 
 try:
