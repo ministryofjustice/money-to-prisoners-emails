@@ -14,7 +14,7 @@ ENVIRONMENT = os.environ.get('ENV', 'local')
 APP_BUILD_DATE = os.environ.get('APP_BUILD_DATE')
 APP_BUILD_TAG = os.environ.get('APP_BUILD_TAG')
 APP_GIT_COMMIT = os.environ.get('APP_GIT_COMMIT')
-MOJ_INTERNAL_SITE = True
+MOJ_INTERNAL_SITE = False
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
@@ -48,7 +48,7 @@ EMAILS_URL = (
     if os.environ.get('PUBLIC_EMAILS_HOST')
     else 'http://localhost:8006'
 )
-SITE_URL = BANK_ADMIN_URL
+SITE_URL = EMAILS_URL
 
 # Application definition
 INSTALLED_APPS = (
@@ -239,21 +239,6 @@ OAUTHLIB_INSECURE_TRANSPORT = True
 ANALYTICS_REQUIRED = os.environ.get('ANALYTICS_REQUIRED', 'True') == 'True'
 GOOGLE_ANALYTICS_ID = os.environ.get('GOOGLE_ANALYTICS_ID', None)
 
-REFUND_REFERENCE = 'Refund %s %s'
-REFUND_OUTPUT_FILENAME = 'mtp_accesspay_{date:%d%m%y}.txt'
-
-ADI_TEMPLATE_FILEPATH = 'local_files/adi_template.xlsm'
-ADI_CACHED_OUTPUT_FILENAME = 'adi_journal_{date:%d%m%Y}_MTP01.xlsm'
-ADI_OUTPUT_FILENAME = '0210_SSCL_{initials}_{date:%d%m%Y}_MTP01.xlsm'
-
-# BANK_STMT_ACCOUNT_NUMBER = os.environ.get('BANK_STMT_ACCOUNT_NUMBER', '')
-# BANK_STMT_SORT_CODE = os.environ.get('BANK_STMT_SORT_CODE', '')
-# BANK_STMT_CURRENCY = os.environ.get('BANK_STMT_CURRENCY', 'GBP')
-# BANK_STMT_OUTPUT_FILENAME = 'NMS{account_number}{date:%d%m%Y}.dat'
-
-# DISBURSEMENT_TEMPLATE_FILEPATH = 'local_files/disbursement_template.xlsm'
-# DISBURSEMENT_OUTPUT_FILENAME = 'mtp_disbursements_{date:%d%m%Y}.xlsm'
-
 REQUEST_PAGE_SIZE = 500
 
 ZENDESK_BASE_URL = 'https://ministryofjustice.zendesk.com'
@@ -268,38 +253,9 @@ ZENDESK_CUSTOM_FIELDS = {
     'contact_email': 30769508,
 }
 
-EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
-ANYMAIL = {
-    'MAILGUN_API_KEY': os.environ.get('MAILGUN_ACCESS_KEY', ''),
-    'MAILGUN_SENDER_DOMAIN': os.environ.get('MAILGUN_SERVER_NAME', ''),
-    'MAILGUN_API_URL': os.environ.get('MAILGUN_API_URL', 'https://api.mailgun.net/v3'),
-    'SEND_DEFAULTS': {
-        'tags': [APP, ENVIRONMENT],
-    },
-}
-MAILGUN_FROM_ADDRESS = os.environ.get('MAILGUN_FROM_ADDRESS', '')
-if MAILGUN_FROM_ADDRESS:
-    DEFAULT_FROM_EMAIL = MAILGUN_FROM_ADDRESS
+# EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
 
 SHOW_LANGUAGE_SWITCH = os.environ.get('SHOW_LANGUAGE_SWITCH', 'False') == 'True'
-
-# BANK_ADMIN_USERNAME = os.environ.get('BANK_ADMIN_USERNAME', 'refund-bank-admin')
-# BANK_ADMIN_PASSWORD = os.environ.get('BANK_ADMIN_PASSWORD', 'refund-bank-admin')
-
-# general ledger account code for prisoner monies holding bank account
-PRISONER_MONEY_HOLDING_ACCOUNT = '1841102059'
-
-# whether to hide download links for Access Pay refunds files
-SHOW_ACCESS_PAY_REFUNDS = True
-
-# global setting to turn on all November 2 HMPPS policy changes
-NOVEMBER_SECOND_CHANGES_LIVE = os.environ.get('NOVEMBER_SECOND_CHANGES_LIVE', '').lower() in ('1', 'true')
-if NOVEMBER_SECOND_CHANGES_LIVE:
-    # new bank account will be in use from this date
-    PRISONER_MONEY_HOLDING_ACCOUNT = '1841102092'
-
-    # with credits by bank transfer no longer being allowed, refunds are not necessary
-    SHOW_ACCESS_PAY_REFUNDS = False
 
 try:
     from .local import *  # noqa
