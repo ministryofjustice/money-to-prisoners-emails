@@ -100,8 +100,9 @@ class NotifyCallbacksTestCase(SimpleTestCase):
             )
         self.assertRejectedCallback(response, 'JSON payload is not a known callback type')
 
+    @mock.patch('callbacks.tasks.logger')
     @mock.patch.object(HttpRequest, 'is_secure')
-    def test_secure_delivery_receipt_with_valid_token_accepted(self, mock_request_is_secure):
+    def test_secure_delivery_receipt_with_valid_token_accepted(self, mock_request_is_secure, mock_logger):
         mock_request_is_secure.return_value = True
 
         response = self.client.post(
@@ -110,9 +111,11 @@ class NotifyCallbacksTestCase(SimpleTestCase):
             HTTP_AUTHORIZATION='Bearer 0000111122223333',
         )
         self.assertAcceptedCallback(response)
+        self.assertEqual(mock_logger.info.call_count, 1)
 
+    @mock.patch('callbacks.tasks.logger')
     @mock.patch.object(HttpRequest, 'is_secure')
-    def test_secure_received_text_message_with_valid_token_accepted(self, mock_request_is_secure):
+    def test_secure_received_text_message_with_valid_token_accepted(self, mock_request_is_secure, mock_logger):
         mock_request_is_secure.return_value = True
 
         response = self.client.post(
@@ -121,3 +124,4 @@ class NotifyCallbacksTestCase(SimpleTestCase):
             HTTP_AUTHORIZATION='Bearer 0000111122223333',
         )
         self.assertAcceptedCallback(response)
+        self.assertEqual(mock_logger.info.call_count, 1)

@@ -9,6 +9,8 @@ from django.utils.crypto import constant_time_compare
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 
+from callbacks.tasks import handle_callback_payload
+
 
 class InvalidRequest(Exception):
     pass
@@ -40,6 +42,7 @@ class NotifyCallbackView(View):
                 content_type='text/plain',
                 status=HTTPStatus.BAD_REQUEST,
             )
+        handle_callback_payload(callback_type.name, payload)
         return HttpResponse(b'', status=HTTPStatus.NO_CONTENT)
 
     def validate_request(self):
