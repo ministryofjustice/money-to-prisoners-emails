@@ -2,10 +2,10 @@
 # Copyright (C) Crown copyright (Ministry of Justice)
 msgid ""
 msgstr ""
-"Project-Id-Version: mtp-bank-admin\n"
+"Project-Id-Version: mtp-emails\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 15:25+0100\n"
-"PO-Revision-Date: 2016-11-04 10:00+0000\n"
+"POT-Creation-Date: 2021-08-31 12:00+0100\n"
+"PO-Revision-Date: 2021-08-31 12:00+0100\n"
 "Last-Translator: Welsh Language Unit <welsh.language.unit.manager@hmcts.gsi.gov.uk>\n"
 "Language-Team: Welsh (http://www.transifex.com/ministry-of-justice/mtp/language/cy/)\n"
 "Language: en_GB\n"
@@ -13,86 +13,3 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: apps/bank_admin/context_processors.py:9
-msgid "Go to the homepage"
-msgstr ""
-
-#: apps/bank_admin/context_processors.py:10
-msgid "Bank admin"
-msgstr ""
-
-#: apps/bank_admin/decorators.py:22 apps/bank_admin/tests/test_views.py:337
-#: apps/bank_admin/tests/test_views.py:419
-msgid "Invalid format for receipt_date"
-msgstr ""
-
-#: apps/bank_admin/decorators.py:24 apps/bank_admin/tests/test_views.py:349
-#: apps/bank_admin/tests/test_views.py:431
-msgid "'receipt_date' parameter required"
-msgstr ""
-
-#: apps/bank_admin/decorators.py:36 apps/bank_admin/tests/test_views.py:221
-#: apps/bank_admin/tests/test_views.py:325
-msgid "No transactions available"
-msgstr ""
-
-#: apps/bank_admin/decorators.py:39
-msgid "This file cannot be downloaded until the next working day"
-msgstr ""
-
-#: apps/bank_admin/decorators.py:42
-msgid "There was a problem generating the file. Please try again later."
-msgstr ""
-
-#: templates/bank_admin/dashboard.html:6 templates/bank_admin/dashboard.html:13
-#: templates/base.html:21
-msgid "Download files"
-msgstr ""
-
-#: templates/bank_admin/dashboard.html:23
-msgid "Access Pay file – refunds"
-msgstr ""
-
-#: templates/bank_admin/dashboard.html:26
-#, python-format
-msgid "Download file for %(date)s"
-msgstr ""
-
-#: templates/bank_admin/dashboard.html:37
-msgid "Previous AccessPay refund files"
-msgstr ""
-
-#: templates/bank_admin/dashboard.html:56
-msgid "ADI Journal"
-msgstr ""
-
-#: templates/bank_admin/dashboard.html:59
-#: templates/bank_admin/dashboard.html:92
-#, python-format
-msgid "Download transactions for %(date)s"
-msgstr ""
-
-#: templates/bank_admin/dashboard.html:70
-msgid "Previous ADI Journals"
-msgstr ""
-
-#: templates/bank_admin/dashboard.html:89
-msgid "Bank statement"
-msgstr ""
-
-#: templates/bank_admin/dashboard.html:103
-msgid "Previous bank statements"
-msgstr ""
-
-#: templates/base.html:23 templates/base.html:32
-msgid "Get help"
-msgstr ""
-
-#: templates/base.html:34
-msgid "Built by"
-msgstr ""
-
-#: templates/base.html:36
-msgid "Ministry of Justice"
-msgstr ""
