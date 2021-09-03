@@ -1,12 +1,14 @@
-from django.conf.urls import url
 from django.http import HttpResponse
+from django.urls import path
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import View
 
 
-def notify_callbacks(request):
-    response = HttpResponse('TODO: This is just a placeholder/test')
-    return response
+class NotifyCallbackView(View):
+    def post(self, request):
+        return HttpResponse('TODO: This is just a placeholder/test')
 
 
 urlpatterns = [
-    url(r'^callbacks/$', notify_callbacks, name='callbacks'),
+    path('notify-callbacks/', csrf_exempt(NotifyCallbackView.as_view()), name='callbacks'),
 ]
