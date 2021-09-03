@@ -10,7 +10,7 @@ from django.urls import reverse
 from mtp_common.s3_bucket import make_download_token
 from mtp_common.test_utils import silence_logger
 
-from downloads.urls import get_s3_bucket_client
+from downloads.views import get_s3_bucket_client
 
 
 def download_view_url(download_token):
@@ -35,7 +35,7 @@ class DownloadViewTestCase(SimpleTestCase):
         super().setUp()
         get_s3_bucket_client.cache_clear()
 
-    @mock.patch('downloads.urls.S3BucketClient')
+    @mock.patch('downloads.views.S3BucketClient')
     def test_download(self, mock_s3_bucket_client):
         mock_csv_response(mock_s3_bucket_client)
 
@@ -44,7 +44,7 @@ class DownloadViewTestCase(SimpleTestCase):
         self.assertContains(response, b'JOHN HALLS', status_code=HTTPStatus.OK)
         self.assertEqual(response['Content-Disposition'], f'attachment; filename="{filename}"')
 
-    @mock.patch('downloads.urls.S3BucketClient')
+    @mock.patch('downloads.views.S3BucketClient')
     def test_invalid_download_token(self, mock_s3_bucket_client):
         mock_csv_response(mock_s3_bucket_client)
 
@@ -53,7 +53,7 @@ class DownloadViewTestCase(SimpleTestCase):
             response = self.client.get(download_view_url(f'test/folder/invalid-token/{filename}'))
         self.assertNotContains(response, b'JOHN HALLS', status_code=HTTPStatus.NOT_FOUND)
 
-    @mock.patch('downloads.urls.S3BucketClient')
+    @mock.patch('downloads.views.S3BucketClient')
     def test_object_not_found(self, mock_s3_bucket_client):
         mock_s3_bucket_client().download_stream.side_effect = ClientError({
             'Error': {
