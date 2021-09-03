@@ -7,7 +7,7 @@ logger = logging.getLogger('mtp')
 
 @spoolable(body_params=('payload',))
 def handle_callback_payload(callback_type_name: str, payload: dict):
-    from callbacks.urls import CallbackType
+    from callbacks.views import CallbackType
 
     print(callback_type_name, payload)  # TODO: remove once some samples have been collected
 
