@@ -17,7 +17,9 @@ def get_s3_bucket_client():
         raise
 
 
-def download_view(request, bucket_path):
+def download_view(request, bucket_path: str):
+    if not bucket_path.startswith('emails/'):
+        raise Http404
     filename = bucket_path.rsplit('/', 1)[-1]
     try:
         response = get_s3_bucket_client().download_as_streaming_response(bucket_path)

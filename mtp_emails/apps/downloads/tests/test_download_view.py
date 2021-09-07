@@ -17,10 +17,6 @@ def download_view_url(bucket_path):
     return reverse('download', kwargs={'bucket_path': bucket_path})
 
 
-def fake_bucket_path(filename):
-    return generate_upload_path('test/folder', filename)
-
-
 def mock_csv_response(mock_s3_bucket_client):
     mock_stream_response = StreamingHttpResponse(
         streaming_content=io.BytesIO(b'prisoner_name,prisoner_number\nJOHN HALLS,A1409AE'),
@@ -40,9 +36,18 @@ class DownloadViewTestCase(SimpleTestCase):
         mock_csv_response(mock_s3_bucket_client)
 
         filename = 'names.csv'
-        response = self.client.get(download_view_url(fake_bucket_path(filename)))
+        response = self.client.get(download_view_url(generate_upload_path('emails/2021', filename)))
         self.assertContains(response, b'JOHN HALLS', status_code=HTTPStatus.OK)
         self.assertEqual(response['Content-Disposition'], f'attachment; filename="{filename}"')
+
+    @mock.patch('downloads.views.S3BucketClient')
+    def test_download_fails_outside_of_emails_namespace(self, mock_s3_bucket_client):
+        mock_csv_response(mock_s3_bucket_client)
+
+        filename = 'names.csv'
+        with silence_logger(name='django.request', level=logging.ERROR):
+            response = self.client.get(download_view_url(generate_upload_path('backups/2021', filename)))
+        self.assertNotContains(response, b'JOHN HALLS', status_code=HTTPStatus.NOT_FOUND)
 
     @mock.patch('downloads.views.S3BucketClient')
     def test_object_not_found(self, mock_s3_bucket_client):
@@ -55,5 +60,5 @@ class DownloadViewTestCase(SimpleTestCase):
 
         filename = 'not-found.csv'
         with silence_logger(name='django.request', level=logging.ERROR):
-            response = self.client.get(download_view_url(fake_bucket_path(filename)))
-        self.assertNotContains(response, b'JOHN HALLS', status_code=HTTPStatus.NOT_FOUND)
+            response = self.client.get(download_view_url(generate_upload_path('emails/2021', filename)))
+        self.assertContains(response, 'Page not found', status_code=HTTPStatus.NOT_FOUND)
