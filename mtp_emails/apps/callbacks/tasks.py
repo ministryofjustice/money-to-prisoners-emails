@@ -9,8 +9,6 @@ logger = logging.getLogger('mtp')
 def handle_callback_payload(callback_type_name: str, payload: dict):
     from callbacks.views import CallbackType
 
-    print(callback_type_name, payload)  # TODO: remove once some samples have been collected
-
     callback_type = CallbackType[callback_type_name]
     if callback_type == CallbackType.delivery_receipt:
         logger.info(
@@ -23,4 +21,7 @@ def handle_callback_payload(callback_type_name: str, payload: dict):
             payload,
         )
     else:
-        logger.error('Unhandled GOV.UK Notify type %s', callback_type.name)
+        logger.error(
+            f'Unhandled GOV.UK Notify type {callback_type_name}',
+            payload,
+        )

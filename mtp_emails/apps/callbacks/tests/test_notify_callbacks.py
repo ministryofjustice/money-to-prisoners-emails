@@ -13,16 +13,23 @@ class NotifyCallbacksTestCase(SimpleTestCase):
     url = reverse_lazy('callbacks')
 
     valid_delivery_receipt_payload = {
-        # NB: this is not an exhaustive set of valid fields
-        'id': '11111-22222', 'sent_at': '2021-09-03T12:15:30Z',
-        'notification_type': 'email', 'template_id': '11',
+        # representative payload as at 2021-09-07
+        'id': '11111111-1111-1111-1111-111111111111',
+        'created_at': '2021-09-03T12:15:30.000000Z',
+        'sent_at': '2021-09-03T12:15:31.000000Z',
+        'completed_at': '2021-09-03T12:15:32.000000Z',
+        'notification_type': 'email',
+        'template_id': '22222222-2222-2222-2222-222222222222', 'template_version': 1,
         'reference': 'transaction-111112',
         'to': 'user@outside.local',
         'status': 'delivered',
     }
     valid_received_text_message_payload = {
-        'id': '11111-22222', 'date_received': '2021-09-03T12:15:30Z',
-        'source_number': '07000000000', 'destination_number': '07000000001', 'message': 'How do I sign in?',
+        # unconfirmed payload, based on GOV.UK Notify documentation
+        'id': '11111111-1111-1111-1111-111111111112',
+        'date_received': '2021-09-03T12:15:30.000000Z',
+        'source_number': '07000000000', 'destination_number': '07000000001',
+        'message': 'How do I sign in?',
     }
 
     def assertRejectedCallback(self, response, expected_error):  # noqa: N802
