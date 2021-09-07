@@ -11,7 +11,6 @@ from mtp_common.metrics.views import metrics_view
 
 
 urlpatterns = i18n_patterns(
-    url(r'^', include('callbacks.urls',)),
     url(r'^', include('downloads.urls',)),
 
     url(r'^js-i18n.js$', cache_control(public=True, max_age=86400)(JavaScriptCatalog.as_view()), name='js-i18n'),
@@ -21,6 +20,8 @@ urlpatterns = i18n_patterns(
 )
 
 urlpatterns += [
+    url(r'^', include('callbacks.urls',)),
+
     url(r'^ping.json$', PingJsonView.as_view(
         build_date_key='APP_BUILD_DATE',
         commit_id_key='APP_GIT_COMMIT',

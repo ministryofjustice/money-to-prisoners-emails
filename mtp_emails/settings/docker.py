@@ -4,7 +4,7 @@ Docker settings
 from mtp_common.stack import get_current_pod
 
 from .base import *  # noqa
-from .base import DEBUG, ENVIRONMENT, SECRET_KEY, os
+from .base import DEBUG, ENVIRONMENT, SECRET_KEY, GOVUK_NOTIFY_CALLBACKS_BEARER_TOKEN, os
 
 if ENVIRONMENT == 'prod':
     assert not DEBUG, 'Cannot run in DEBUG mode on prod'
@@ -26,6 +26,7 @@ if not OAUTHLIB_INSECURE_TRANSPORT:
 # security tightening
 if ENVIRONMENT != 'local':
     assert SECRET_KEY != 'CHANGE_ME', 'SECRET_KEY must be set up'
+    assert GOVUK_NOTIFY_CALLBACKS_BEARER_TOKEN != 'CHANGE_ME', 'GOVUK_NOTIFY_CALLBACKS_BEARER_TOKEN must be set up'
 
     # ssl redirect done at nginx and kubernetes level
     # SECURE_SSL_REDIRECT = True
