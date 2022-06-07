@@ -70,6 +70,7 @@ INSTALLED_APPS += PROJECT_APPS
 WSGI_APPLICATION = 'mtp_emails.wsgi.application'
 ROOT_URLCONF = 'mtp_emails.urls'
 MIDDLEWARE = (
+    'mtp_common.metrics.middleware.RequestMetricsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
