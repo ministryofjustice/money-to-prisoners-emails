@@ -1,4 +1,4 @@
-# Emails
+# Emails – Prisoner Money
 
 Application to handle emails links to download files and GOV.UK Notify callbacks.
 
@@ -25,7 +25,7 @@ is not accessible from the internet - therefore have it in this separate applica
 
 ## Requirements
 
-- Unix-like platform with Python 3.8+ and NodeJS 16 (e.g. via [nvm](https://github.com/nvm-sh/nvm#nvmrc))
+- Unix-like platform with Python 3.10 and NodeJS 18 (e.g. via [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) or [fnm](https://github.com/Schniz/fnm#installation))
 
 ## Running locally
 
@@ -33,7 +33,7 @@ It's recommended that you use a python virtual environment to isolate each appli
 
 The simplest way to do this is using:
 
-```shell script
+```shell
 python3 -m venv venv    # creates a virtual environment for dependencies; only needed the first time
 . venv/bin/activate     # activates the virtual environment; needed every time you use this app
 ```
@@ -46,7 +46,7 @@ but it’s not required for a standard setup.
 
 To run the application locally, run:
 
-```shell script
+```shell
 ./run.py serve
 # or
 ./run.py start
@@ -62,7 +62,7 @@ All build/development actions can be listed with `./run.py --verbosity 2 help`.
 In order to run a server that's exactly similar to the production machines,
 you need to have [Docker](https://www.docker.com/products/developer-tools) installed. Run
 
-```shell script
+```shell
 ./run.py local_docker
 ```
 
@@ -76,7 +76,7 @@ With the `./run.py` command, you can run a browser-sync server, and get the asse
 to automatically recompile when changes are made, run `./run.py serve` instead of
 `./run.py start`. The server is then available at the URL indicated.
 
-```shell script
+```shell
 ./run.py test
 ```
 
@@ -85,7 +85,7 @@ Runs all the application tests.
 You can connect a local version of [money-to-prisoners-common](https://github.com/ministryofjustice/money-to-prisoners-common/)
 for development by pre-pending the following task to the run script.
 
-```shell script
+```shell
 python_dependencies --common-path [path]
 ```
 
