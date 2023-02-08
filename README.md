@@ -5,12 +5,12 @@ Application to handle emails links to download files and GOV.UK Notify callbacks
 ## Why this application exists
 
 ### Email links
-We're adopting GOV.UK Notify to send emails. Unfortunately it has some limitations:
-- it doesn't allow attachments, emails contains a link to download the files instead
+We’re adopting GOV.UK Notify to send emails. Unfortunately it has some limitations:
+- it doesn’t allow attachments, emails contains a link to download the files instead
 - only certain file types are allowed (e.g. no ZIP files)
 - the service sometimes rejects some Excel files (`.xlsx`) which should be accepted
   (Excel files are a bunch of files in a ZIP archive, so yes, technically they are ZIP files)
-- it doesn't give us any control over the downloaded file's filename, MIME type or even extension
+- it doesn’t give us any control over the downloaded file’s filename, MIME type or even extension
 
 Especially this last limitation could be a problem not only from a UX perspective but also because
 some of the files we email are uploaded to 3rd party systems. These could use filenames to determine
@@ -18,7 +18,7 @@ things like prison or date without asking for user input.
 
 ### GOV.UK Notify callbacks
 The other responsibility for this application is to handle the GOV.UK Notify callbacks to keep track
-of sent emails' statuses, bounced email addresses, etc...
+of sent emails’ statuses, bounced email addresses, etc...
 
 There are no other obvious places for this functionality to live in - aside from possibly `api` which
 is not accessible from the internet - therefore have it in this separate application seemed logical.
@@ -29,7 +29,7 @@ is not accessible from the internet - therefore have it in this separate applica
 
 ## Running locally
 
-It's recommended that you use a python virtual environment to isolate each application.
+It’s recommended that you use a python virtual environment to isolate each application.
 
 The simplest way to do this is using:
 
@@ -41,7 +41,7 @@ python3 -m venv venv    # creates a virtual environment for dependencies; only n
 Some build tasks expect the active virtual environment to be at `/venv/`, but should generally work regardless of
 its location.
 
-You can copy `mtp_emails/settings/local.py.sample` to `local.py` to overlay local settings that won't be committed,
+You can copy `mtp_emails/settings/local.py.sample` to `local.py` to overlay local settings that won’t be committed,
 but it’s not required for a standard setup.
 
 To run the application locally, run:
@@ -59,7 +59,7 @@ All build/development actions can be listed with `./run.py --verbosity 2 help`.
 
 ### Alternative: Docker
 
-In order to run a server that's exactly similar to the production machines,
+In order to run a server that’s exactly similar to the production machines,
 you need to have [Docker](https://www.docker.com/products/developer-tools) installed. Run
 
 ```shell
@@ -93,8 +93,10 @@ python_dependencies --common-path [path]
 
 Update translation files with `./run.py make_messages` – you need to do this every time any translatable text is updated.
 
+Requires [transifex cli tool](https://github.com/transifex/cli#installation) for synchronisation:
+
 Pull updates from Transifex with `./run.py translations --pull`.
-You'll need to update translation files afterwards and manually check that the merges occurred correctly.
+You’ll need to update translation files afterwards and manually check that the merges occurred correctly.
 
 Push latest English to Transifex with `./run.py translations --push`.
 NB: you should pull updates before pushing to merge correctly.
