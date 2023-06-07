@@ -260,7 +260,6 @@ API_URL = os.environ.get('API_URL', 'http://localhost:8000')
 OAUTHLIB_INSECURE_TRANSPORT = True
 
 ANALYTICS_REQUIRED = os.environ.get('ANALYTICS_REQUIRED', 'False') == 'True'
-GOOGLE_ANALYTICS_ID = os.environ.get('GOOGLE_ANALYTICS_ID', None)
 GA4_MEASUREMENT_ID = os.environ.get('GA4_MEASUREMENT_ID', None)
 
 REQUEST_PAGE_SIZE = 500
