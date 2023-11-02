@@ -25,7 +25,7 @@ is not accessible from the internet - therefore have it in this separate applica
 
 ## Requirements
 
-- Unix-like platform with Python 3.10 and NodeJS 18 (e.g. via [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) or [fnm](https://github.com/Schniz/fnm#installation))
+- Unix-like platform with Python 3.10 and NodeJS 20 (e.g. via [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) or [fnm](https://github.com/Schniz/fnm#installation))
 
 ## Running locally
 
