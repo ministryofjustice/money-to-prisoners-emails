@@ -1,3 +1,9 @@
 {% extends 'mtp_common/mtp_base.html' %}
 {% load i18n %}
 {% load mtp_common %}
+
+
+{% block header %}
+  {{ block.super }}
+  {% include 'govuk-frontend/components/service-navigation.html' with service_name=_('Prisoner Money') %}
+{% endblock %}
