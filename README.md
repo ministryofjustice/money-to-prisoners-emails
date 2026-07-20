@@ -2,6 +2,9 @@
 
 Application to handle emails links to download files and GOV.UK Notify callbacks.
 
+How this app fits into the wider service — architecture, data flows, deployment and
+support — is documented in [money-to-prisoners-deploy](https://github.com/ministryofjustice/money-to-prisoners-deploy/blob/main/docs/README.md).
+
 ## Why this application exists
 
 ### Email links
@@ -70,7 +73,7 @@ and you should be able to connect to the local server.
 
 ## Developing
 
-[![CircleCI](https://circleci.com/gh/ministryofjustice/money-to-prisoners-emails.svg?style=svg)](https://circleci.com/gh/ministryofjustice/money-to-prisoners-emails)
+[![Build, test and push](https://github.com/ministryofjustice/money-to-prisoners-emails/actions/workflows/build-test-push.yml/badge.svg)](https://github.com/ministryofjustice/money-to-prisoners-emails/actions/workflows/build-test-push.yml)
 
 With the `./run.py` command, you can run a browser-sync server, and get the assets
 to automatically recompile when changes are made, run `./run.py serve` instead of
