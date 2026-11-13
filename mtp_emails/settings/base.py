@@ -20,6 +20,8 @@ MOJ_INTERNAL_SITE = False
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or 'CHANGE_ME'
+PRIVATE_ESTATE_DOWNLOAD_SIGNING_KEY = os.environ.get('PRIVATE_ESTATE_DOWNLOAD_SIGNING_KEY', '')
+PRIVATE_ESTATE_DOWNLOAD_LIFETIME_SECONDS = int(os.environ.get('PRIVATE_ESTATE_DOWNLOAD_LIFETIME_SECONDS', 28 * 86400))
 ALLOWED_HOSTS = ['*']
 
 START_PAGE_URL = os.environ.get('START_PAGE_URL', 'https://www.gov.uk/send-prisoner-money')
@@ -70,6 +72,7 @@ INSTALLED_APPS += PROJECT_APPS
 WSGI_APPLICATION = 'mtp_emails.wsgi.application'
 ROOT_URLCONF = 'mtp_emails.urls'
 MIDDLEWARE = (
+    'downloads.middleware.PrivateDownloadReferrerPolicyMiddleware',
     'mtp_common.metrics.middleware.RequestMetricsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -93,6 +96,10 @@ if APPLICATIONINSIGHTS_CONNECTION_STRING:
         'TRACE': {
             'SAMPLER': ProbabilitySampler(rate=0.1 if ENVIRONMENT == 'prod' else 1),
             'EXPORTER': AppInsightsTraceExporter(),
+            'EXCLUDELIST_PATHS': ['_ah/health', 'download-private', 'en-gb/download-private',
+                                  'cy/download-private', 'download/emails/private-estate-credits',
+                                  'en-gb/download/emails/private-estate-credits',
+                                  'cy/download/emails/private-estate-credits'],
         }
     }
 
@@ -170,6 +177,9 @@ TEMPLATES = [
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'redact_legacy_download_path': {'()': 'downloads.logging.RedactLegacyDownloadPath'},
+    },
     'formatters': {
         'simple': {
             'format': '%(asctime)s [%(levelname)s] %(message)s',
@@ -199,6 +209,10 @@ LOGGING = {
         'handlers': ['console'],
     },
     'loggers': {
+        'django.request': {
+            'filters': ['redact_legacy_download_path'],
+            'propagate': True,
+        },
         'django.security.DisallowedHost': {
             'handlers': ['null'],
             'propagate': False,
@@ -224,6 +238,13 @@ if os.environ.get('SENTRY_DSN'):
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
 
+    def exclude_private_download_event(event, hint):
+        request = event.get('request') or {}
+        if any(path in request.get('url', '') for path in ('/download-private',
+                                                           '/download/emails/private-estate-credits')):
+            return None
+        return event
+
     sentry_sdk.init(
         dsn=os.environ['SENTRY_DSN'],
         integrations=[DjangoIntegration()],
@@ -231,6 +252,7 @@ if os.environ.get('SENTRY_DSN'):
         release=APP_GIT_COMMIT or 'unknown',
         send_default_pii=DEBUG,
         max_request_body_size='medium' if DEBUG else 'never',
+        before_send=exclude_private_download_event,
     )
 
 TEST_RUNNER = 'mtp_common.test_utils.runner.TestRunner'
