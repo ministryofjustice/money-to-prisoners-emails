@@ -71,8 +71,7 @@ class DownloadViewTestCase(SimpleTestCase):
         self.assertContains(response, 'Page not found', status_code=HTTPStatus.NOT_FOUND)
 
 
-@override_settings(PRIVATE_ESTATE_DOWNLOAD_SIGNING_KEY='test-signing-key',
-                   PRIVATE_ESTATE_DOWNLOAD_LIFETIME_SECONDS=28 * 86400)
+@override_settings(PRIVATE_ESTATE_DOWNLOAD_SIGNING_KEY='test-signing-key')
 class PrivateEstateDownloadViewTestCase(SimpleTestCase):
     path = PREFIX + '2026-11-13/PR1/random/payment.csv'
 
@@ -150,6 +149,19 @@ class PrivateEstateDownloadViewTestCase(SimpleTestCase):
                                 (reverse('private-download'), {'token': token})):
                 self.assertEqual(self.client.get(url, params).status_code, HTTPStatus.NOT_FOUND)
         mock_s3.assert_not_called()
+
+    @override_settings(PRIVATE_ESTATE_DOWNLOAD_SIGNING_KEY='')
+    @mock.patch('downloads.views.S3BucketClient')
+    def test_missing_key_blocks_signed_links_but_keeps_legacy_links_working(self, mock_s3):
+        token = issue_token(self.path, 'test-signing-key', 60)
+        self.assertEqual(self.client.get(reverse('private-download'), {'token': token}).status_code,
+                         HTTPStatus.NOT_FOUND)
+        mock_s3.assert_not_called()
+
+        mock_csv_response(mock_s3)
+        mock_s3().download_as_streaming_response.return_value['Last-Modified'] = format_datetime(timezone.now())
+        legacy_path = 'emails/private-estate-credits/2026-11-13/PR1/random/payment.csv'
+        self.assertEqual(self.client.get(download_view_url(legacy_path)).status_code, HTTPStatus.OK)
 
     @mock.patch('downloads.views.S3BucketClient')
     def test_legacy_path_cannot_traverse_to_signed_objects(self, mock_s3):
